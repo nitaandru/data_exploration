@@ -3,7 +3,7 @@ import glob
 import numpy as np
 
 # get data file names
-path ='/home/nitaandru/Desktop/ugal/'
+path ='C:/Nita/UGAL/ECA_non-blended_custom/'
 filenames = glob.glob(path + 'TG_*')
 
 # append all the columns into a single dataframe 
@@ -20,6 +20,10 @@ frame.columns.tolist()
 # change the names
 frame.columns = ['STAID', 'SOUID', 'DATE', 'TG', 'Q_TG'] 
 
+# convert the date column in DATE format 
+frame['DATE'] = pd.to_datetime(frame['DATE'], format = "%Y%m%d")
+frame = frame.set_index('DATE', drop = False)
+
 # count the number of stations
 frame.nunique()
 
@@ -30,8 +34,11 @@ frame.describe()
 frame.TG = frame.TG/10
 frame.TG.describe()
 
+# subset the data for 1961-2020 interval
+frame = frame.loc[frame["DATE"].between("1961-01-01", "2020-12-31")]
+
 # read the metadata for stations
-meta = pd.read_csv("/home/nitaandru/Desktop/ugal/sources.txt", skiprows = 23)
+meta = pd.read_csv("C:/Nita/UGAL/ECA_non-blended_custom/sources.txt", skiprows = 23)
 meta.head(5)
 
 # select only the name and coordinates then name the columns
@@ -46,6 +53,11 @@ new_data.TG.isnull().sum()
 misses = new_data.TG.isnull().groupby([new_data['SOUNAME']]).sum().astype(int)
 
 # let's check the missing interval for each station
+new_data = new_data.set_index('DATE')
+new_data['YEAR'] = pd.to_datetime(new_data.index).strftime('%Y')
+misses_year = new_data.TG.isnull().groupby([new_data['SOUNAME'],new_data['YEAR']]).sum().astype(int).reset_index(name = 'Count')
+
+# let's plot the actual missing data
 
 
 # media multianuala pe statii
