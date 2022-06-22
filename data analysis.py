@@ -1,6 +1,7 @@
 import pandas as pd
 import glob
 import numpy as np
+import matplotlib as plt
 
 # get data file names
 path ='C:/Nita/UGAL/ECA_non-blended_custom/'
@@ -50,7 +51,8 @@ new_data = pd.merge(frame, meta.iloc[:,[0,1]], how = 'inner')
 
 # count the number of missing data for each weather station
 new_data.TG.isnull().sum()
-misses = new_data.TG.isnull().groupby([new_data['SOUNAME']]).sum().astype(int)
+misses = new_data.TG.isnull().groupby([new_data['SOUNAME']]).sum().astype(int).reset_index(False)
+misses['PERCENT'] = misses['TG'] / len(pd.date_range(start="1961-01-01",end="2020-12-31")) * 100
 
 # let's check the missing interval for each station
 new_data = new_data.set_index('DATE')
@@ -58,10 +60,6 @@ new_data['YEAR'] = pd.to_datetime(new_data.index).strftime('%Y')
 misses_year = new_data.TG.isnull().groupby([new_data['SOUNAME'],new_data['YEAR']]).sum().astype(int).reset_index(name = 'Count')
 
 # let's plot the actual missing data
-
-
-# media multianuala pe statii
-multianuala = new_data.groupby('SOUNAME').agg('mean')
-suspect = new_data[new_data['Q_TG'] == 9]
-
-new_data.isnull().sum()
+sns.set_style("darkgrid")
+ax = sns.barplot(x="PERCENT", y="SOUNAME", data = misses)
+misses.plot.line( y='Temperature', figsize=( 12 , 8 ))
