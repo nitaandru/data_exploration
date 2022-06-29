@@ -1,7 +1,7 @@
 import pandas as pd
 import glob
 import numpy as np
-import matplotlib as plt
+import seaborn as sns
 
 # get data file names
 path ='C:/Nita/UGAL/ECA_non-blended_custom/'
@@ -62,4 +62,27 @@ misses_year = new_data.TG.isnull().groupby([new_data['SOUNAME'],new_data['YEAR']
 # let's plot the actual missing data
 sns.set_style("darkgrid")
 ax = sns.barplot(x="PERCENT", y="SOUNAME", data = misses)
-misses.plot.line( y='Temperature', figsize=( 12 , 8 ))
+
+# Plot annual missings – check https://www.python-graph-gallery.com/242-area-chart-and-faceting 
+# for more info about seaborn
+misses_year['YEAR'] =  misses_year['YEAR'].astype(int)
+
+g = sns.FacetGrid(misses_year, col='SOUNAME', hue='SOUNAME', col_wrap=8)
+
+# Add the line over the area with the plot function
+g = g.map(plt.plot, 'YEAR', 'Count')
+ 
+# Fill the area with fill_between
+g = g.map(plt.fill_between, 'YEAR', 'Count', alpha=0.2).set_titles("{col_name} station")
+ 
+# Control the title of each facet
+g = g.set_titles("{col_name}")
+ 
+# Add a title for the whole plot
+plt.subplots_adjust(top=0.92)
+# g = g.fig.suptitle('Evolution of the value of stuff in 16 countries')
+
+# Show the graph
+plt.show()
+
+# toate statiile au lipsa informatii pentru 2020.
