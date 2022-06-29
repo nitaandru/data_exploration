@@ -4,6 +4,7 @@ Informatiile climatice discutate sunt descarcate de pe site-urile ECA&d si NCEI:
 
 <url> https://www.ecad.eu/dailydata/index.php </url> ## pentru ECA&d <br> 
 <url> https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt </url> ## pentru Global Historical Climatology Network
+<url> https://www.ncei.noaa.gov/data/global-historical-climatology-network-daily/access/ </url> ## pentru datele climatice
 
 ### Credits
 Klein Tank, A.M.G. and Coauthors, 2002. Daily dataset of 20th-century surface air temperature and precipitation series for the European Climate Assessment. Int. J. of Climatol., 22, 1441-1453. <br> 
