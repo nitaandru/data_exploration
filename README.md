@@ -2,7 +2,7 @@
 
 Informatiile climatice discutate sunt descarcate de pe site-urile ECA&d si NCEI:
 
-#1 https://www.ecad.eu/dailydata/index.php ## pentru ECA&d
+<url> https://www.ecad.eu/dailydata/index.php </url> ## pentru ECA&d
 #2 https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt ## pentru Global Historical Climatology Network
 
 ### Credits
